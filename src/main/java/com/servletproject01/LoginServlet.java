@@ -12,11 +12,7 @@ import java.io.PrintWriter;
 
 @WebServlet(
         description = "Login Servlet Testing",
-        urlPatterns = {"/LoginServlet"},
-        initParams = {
-                @WebInitParam(name = "user", value = "Surakshith"),
-                @WebInitParam(name = "password", value = "123456")
-        }
+        urlPatterns = {"/LoginServlet"}
 )
 
 public class LoginServlet extends HttpServlet {
@@ -24,16 +20,19 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String user = request.getParameter("user");
         String pwd = request.getParameter("pwd");
-        String userID = getServletConfig().getInitParameter("user");
-        String password = getServletConfig().getInitParameter("password");
-        if (userID.equals(user) && password.equals(pwd)) {
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
-        } else {
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/Login.html");
-            PrintWriter out = response.getWriter();
-            out.println("<font color=red>Either username or password is wrong.</font>");
-            requestDispatcher.include(request, response);
+
+        String regexName = "^[A-Z]{1}[a-zA-Z]{2,}$";
+        String regexPassword = "^[A-Z]{1}[a-z0-9!@#$%^&*]{7,}$";
+
+
+        if ( user.matches(regexName) &&  pwd.matches(regexPassword)) {
+                request.setAttribute("user", user);
+                request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
+            } else {
+                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/Login.html");
+                PrintWriter out = response.getWriter();
+                out.println("<font color=red>Either username or password is wrong.</font>");
+                requestDispatcher.include(request, response);
+            }
         }
     }
-}

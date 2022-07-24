@@ -14,7 +14,7 @@
     <title>Login Success Page</title>
 </head>
 <body>
-<h3>Hi <%= request.getAttribute("user") %>,You have Successfully LoggedIn</h3>
+<h3>Hi <%= request.getAttribute("user") %>,Your Username and Password Created Successfully</h3>
 <a href = "Login.html">Login Page</a>
 </body>
 </html>
